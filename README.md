@@ -48,7 +48,7 @@ EMAIL_PASSWORD=your_email_password
 python scraper.py
 ```
 
-3. **Check Results**: The script will print updates to the console. New jobs will be added to the `jobs.xlsx file`, and you will receive an email notification with details of the new job listings.
+3. **Check Results**: The script will print updates to the console. New jobs will be added to the `jobs.xlsx` file, and you will receive an email notification with details of the new job listings.
 
 ## Code Explanation
 
