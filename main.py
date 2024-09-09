@@ -135,7 +135,7 @@ class MojPosaoScraper():
         # Email setup
         sender_email = os.getenv('SENDER_EMAIL')
         receiver_email = os.getenv('RECEIVER_EMAIL')
-        subject = "New Job Listings"
+        subject = "Novi poslovi na mojposao.hr"
         password = os.getenv('EMAIL_PASSWORD')
 
         # Create the email
