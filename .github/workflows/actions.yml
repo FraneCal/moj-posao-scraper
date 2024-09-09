@@ -2,8 +2,8 @@ name: Run Job Scraper
 
 on:
   schedule:
-    # Runs every 10 minutes
-    - cron: '*/10 * * * *'
+    # Runs every day at 00:00
+    - cron: '0 0 * * *'
 
 jobs:
   run-scraper:
