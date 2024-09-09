@@ -9,8 +9,6 @@ import time
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 from dotenv import load_dotenv
 import os
 
@@ -93,8 +91,7 @@ class MojPosaoScraper():
         self.filter_new_jobs()
 
     def filter_new_jobs(self):
-        '''Compares the new job listings with the existing Excel file to avoid duplicates. Saves only the new listings.'''
-        # Check if the Excel file exists
+        '''Compares the new job listings with the existing Excel file to avoid duplicates. Updates the existing file with new listings.'''
         if os.path.exists(self.excel_file):
             existing_jobs = pd.read_excel(self.excel_file)
 
@@ -112,7 +109,7 @@ class MojPosaoScraper():
             new_jobs_only.columns = ['Pozicija', 'Firma', 'Lokacija', 'Datum prijave do', 'Link']  # Rename the columns
 
             if not new_jobs_only.empty:
-                # Append the new jobs to the existing Excel file
+                # Update the existing Excel file with new jobs
                 with pd.ExcelWriter(self.excel_file, mode='a', if_sheet_exists='overlay') as writer:
                     new_jobs_only.to_excel(writer, index=False, header=False, startrow=len(existing_jobs)+1)
 
@@ -132,14 +129,13 @@ class MojPosaoScraper():
         print(f"Data has been saved to {self.excel_file}.")
 
     def send_email(self, new_jobs):
-        '''Sends an email with the new job listings attached as an Excel file.'''
-
+        '''Sends an email with information about new job listings.'''
         load_dotenv()
 
         # Email setup
         sender_email = os.getenv('SENDER_EMAIL')
         receiver_email = os.getenv('RECEIVER_EMAIL')
-        subject = "Novi poslovi"
+        subject = "New Job Listings"
         password = os.getenv('EMAIL_PASSWORD')
 
         # Create the email
@@ -148,20 +144,33 @@ class MojPosaoScraper():
         msg['To'] = receiver_email
         msg['Subject'] = subject
 
-        body = "U prilogu se nalaze novi poslovi. :)\nLp, Frane"
+        # Prepare the email body
+        num_new_jobs = len(new_jobs)
+        body = f"""\
+            Hello,
+
+            We have added {num_new_jobs} new job listings. Here are the details:
+
+            """
+
+        # Append details of each new job to the email body
+        for index, job in new_jobs.iterrows():
+            body += f"""
+                Job Position: {job['Pozicija']}
+                Company: {job['Firma']}
+                Location: {job['Lokacija']}
+                Application Deadline: {job['Datum prijave do']}
+                Link: {job['Link']}
+
+                """
+
+            body += """\
+                Please check the updated file for more details.
+
+                Best regards,
+                Your Job Scraper"""
+
         msg.attach(MIMEText(body, 'plain'))
-
-        # Attach the Excel file with new jobs
-        filename = "new_jobs.xlsx"
-        new_jobs.to_excel(filename, index=False)
-
-        attachment = open(filename, "rb")
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(attachment.read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f"attachment; filename= {filename}")
-
-        msg.attach(part)
 
         # Sending the email
         try:
@@ -174,8 +183,6 @@ class MojPosaoScraper():
             print("Email sent successfully.")
         except Exception as e:
             print(f"Failed to send email. Error: {e}")
-        finally:
-            attachment.close()
 
 if __name__ == "__main__":
     # URL for job scraping
