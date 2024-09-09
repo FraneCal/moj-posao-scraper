@@ -147,25 +147,24 @@ class MojPosaoScraper():
         # Prepare the email body
         num_new_jobs = len(new_jobs)
         body = f"""\
-            Bok,
+        Bok,
 
-            Dodana su {num_new_jobs} nova posla:
-
+        Dodana su {num_new_jobs} nova posla:
             """
 
         # Append details of each new job to the email body
         for index, job in new_jobs.iterrows():
             body += f"""
-                Pozicija: {job['Pozicija']}
-                Firma: {job['Firma']}
-                Lokacija: {job['Lokacija']}
-                Datum prijave do: {job['Datum prijave do']}
-                Link: {job['Link']}
+            Pozicija: {job['Pozicija']}
+            Firma: {job['Firma']}
+            Lokacija: {job['Lokacija']}
+            Datum prijave do: {job['Datum prijave do']}
+            Link: {job['Link']}
 
                 """
 
         body += """\
-            Lp, Frane"""
+        Lp, Frane"""
 
         msg.attach(MIMEText(body, 'plain'))
 
