@@ -147,28 +147,25 @@ class MojPosaoScraper():
         # Prepare the email body
         num_new_jobs = len(new_jobs)
         body = f"""\
-            Hello,
+            Bok,
 
-            We have added {num_new_jobs} new job listings. Here are the details:
+            Dodana su {num_new_jobs} nova posla:
 
             """
 
         # Append details of each new job to the email body
         for index, job in new_jobs.iterrows():
             body += f"""
-                Job Position: {job['Pozicija']}
-                Company: {job['Firma']}
-                Location: {job['Lokacija']}
-                Application Deadline: {job['Datum prijave do']}
+                Pozicija: {job['Pozicija']}
+                Firma: {job['Firma']}
+                Lokacija: {job['Lokacija']}
+                Datum prijave do: {job['Datum prijave do']}
                 Link: {job['Link']}
 
                 """
 
-            body += """\
-                Please check the updated file for more details.
-
-                Best regards,
-                Your Job Scraper"""
+        body += """\
+            Lp, Frane"""
 
         msg.attach(MIMEText(body, 'plain'))
 
