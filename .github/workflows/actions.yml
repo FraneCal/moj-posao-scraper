@@ -34,3 +34,14 @@ jobs:
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       run: |
         python main.py
+
+    # Step 5: Commit and push updates
+    - name: Commit and push changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: 'github-actions'
+        author_email: 'github-actions@github.com'
+        message: 'Automated commit of new job data'
+        add: 'jobs.xlsx'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
