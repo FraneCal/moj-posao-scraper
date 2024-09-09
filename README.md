@@ -59,7 +59,7 @@ python scraper.py
 - **Filtering New Jobs**: Updates the existing Excel file with new job listings and sends an email notification.
 - **Sending Email**: Sends an email with details of new job listings.
 
-##Contributing
+## Contributing
 
 Feel free to fork this repository and submit pull requests. If you encounter any issues, please open an issue ticket.
 
