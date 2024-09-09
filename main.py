@@ -148,7 +148,7 @@ class MojPosaoScraper():
         msg['To'] = receiver_email
         msg['Subject'] = subject
 
-        body = "U prilogu se nalaze novi poslovi. :)"
+        body = "U prilogu se nalaze novi poslovi. :)\nLp, Frane"
         msg.attach(MIMEText(body, 'plain'))
 
         # Attach the Excel file with new jobs
