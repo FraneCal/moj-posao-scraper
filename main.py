@@ -164,7 +164,7 @@ class MojPosaoScraper():
                 """
 
         body += """\
-        Lp, Frane"""
+    Lp, Frane"""
 
         msg.attach(MIMEText(body, 'plain'))
 
