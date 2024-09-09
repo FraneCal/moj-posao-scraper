@@ -60,5 +60,6 @@ python scraper.py
 - **Sending Email**: Sends an email with details of new job listings.
 
 ##Contributing
+
 Feel free to fork this repository and submit pull requests. If you encounter any issues, please open an issue ticket.
 
