@@ -72,7 +72,7 @@ class MojPosaoScraper():
             
             for nested_content in nested_content_boxes:
                 # Extract job title, location, application date, and link
-                self.title = nested_content.find("h3", class_="mp-text mp-text__h5 mp-text__h5--bold mp-text--link-card")
+                self.title = nested_content.find("h3", class_="header__title mp-text mp-text__h5 mp-text__h5--bold mp-text--link-card header__title")
                 self.location = nested_content.find("span", class_="mp-text mp-text__default mp-text__default--regular mp-text--no-margin")
                 self.application_date = nested_content.find("time", class_="mp-text mp-text__default mp-text__default--bold mp-text--no-margin")
                 self.link = nested_content.find("div", class_="content__header header").find("a")
@@ -80,13 +80,14 @@ class MojPosaoScraper():
                 # Only append to data if all elements are found
                 if self.title and self.location and self.application_date and self.link:
                     self.data.append({
-                        'Pozicija': self.title.getText(),
-                        'Firma': self.company,
-                        'Lokacija': self.location.getText(),
-                        'Datum prijave do': self.application_date.getText(),
-                        'Link': f'https://mojposao.hr{self.link.get("href")}'
+                        'Pozicija': self.title.getText() if self.title else 'Data not found',
+                        'Firma': self.company if self.company else 'Data not found',
+                        'Lokacija': self.location.getText() if self.location else 'Data not found',
+                        'Datum prijave do': self.application_date.getText() if self.application_date else 'Data not found',
+                        'Link': f'https://mojposao.hr{self.link.get("href")}' if self.link else 'Data not found'
                     })
-        
+
+
         # Load existing data and compare
         self.filter_new_jobs()
 
@@ -146,11 +147,10 @@ class MojPosaoScraper():
 
         # Prepare the email body
         num_new_jobs = len(new_jobs)
-        body = f"""\
-        Bok,
+        body = f"""\Bok,
 
         Dodana su {num_new_jobs} nova posla:
-            """
+        """
 
         # Append details of each new job to the email body
         for index, job in new_jobs.iterrows():
@@ -160,11 +160,9 @@ class MojPosaoScraper():
         Lokacija: {job['Lokacija']}
         Datum prijave do: {job['Datum prijave do']}
         Link: {job['Link']}
+            """
 
-                """
-
-        body += """\
-    Lp, Frane"""
+        body += """\Lp, Frane"""
 
         msg.attach(MIMEText(body, 'plain'))
 
