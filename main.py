@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
 import pandas as pd
 import time
 import smtplib
@@ -30,7 +31,7 @@ class MojPosaoScraper():
         try:
             self.accept_cookies = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="teleport"]/div[2]/div/div/div/button')))
             self.accept_cookies.click()
-        except TimeoutError:
+        except TimeoutException:
             print("No accept cookies button found.")
 
         time.sleep(2)
