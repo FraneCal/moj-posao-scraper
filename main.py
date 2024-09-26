@@ -27,8 +27,11 @@ class MojPosaoScraper():
         self.driver.maximize_window()
 
         # Accept cookies
-        self.accept_cookies = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="teleport"]/div[2]/div/div/div/button')))
-        self.accept_cookies.click()
+        try:
+            self.accept_cookies = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="teleport"]/div[2]/div/div/div/button')))
+            self.accept_cookies.click()
+        except TimeoutError:
+            print("No accept cookies button found.")
 
         time.sleep(2)
 
