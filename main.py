@@ -184,7 +184,7 @@ class MojPosaoScraper():
 
 if __name__ == "__main__":
     # URL for job scraping
-    URL = "https://mojposao.hr/pretraga-poslova?locations=ChIJe_jnWFN_ZkcRILQrhlCtAAM&locations=ChIJOcwCyZLWZUcRisL7KJYkRTo&positions=7"
+    URL = "https://mojposao.hr/pretraga-poslova?positions=IT,+telekomunikacije&locations=Grad+Zagreb+i+Zagreba%C4%8Dka+%C5%BEupanija"
     
     scraper = MojPosaoScraper()
     scraper.selenium_initialization(URL)
