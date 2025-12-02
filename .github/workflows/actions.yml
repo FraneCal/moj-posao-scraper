@@ -4,6 +4,7 @@ on:
   schedule:
     # Runs every day at 10:00
     # - cron: '0 10 * * *'
+    - cron: "*/5 * * * *"
 
 jobs:
   run-scraper:
